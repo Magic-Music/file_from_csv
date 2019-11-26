@@ -3,11 +3,12 @@
 
 This script uses a _conversion script_ file to read rows from a csv and convert each row into an output in any required format
 
-Invoke the script as follows
-` php CreateFileFromCsv.php scriptname [--input=filename] [--output=filename] [--verbose] [--samples[=x]] `
+Invoke the script as follows:-
 
-- verbose outputs every statement to screen as it is being generated (slow)
-- samples outputs to screen a sample using only the first [or first x] row(s)
+`php CreateFileFromCsv.php scriptname [--input=filename] [--output=filename] [--verbose] [--samples[=x]]`
+
+- *verbose* outputs every statement to screen as it is being generated (slow)
+- *samples* outputs to screen a sample using only the first [or first x] row(s)
 
 Input and Output filenames can be specified in the script, and are overridden by the cli versions if provided
 
@@ -40,3 +41,6 @@ _See example folder for sample scripts. You can create subfolders in the scripts
       ['input1.file' => 'output1.file],
       ['input2.file' => 'output2.file]
   ]
+
+- You can change the placemarker character used to denote \~placeholders\~ by adding a property to your class:-
+    `public $placeMarker='%';`
