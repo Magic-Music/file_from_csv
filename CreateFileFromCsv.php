@@ -22,7 +22,7 @@
  * --input=filename: Override the input filename in the script
  * --output=filename: Override the output filename in the script
  *
- * See 'sample.php' script file for details of creating a conversion script
+ * See samples in scripts/example folder for details of creating a conversion script
  *
  */
 new CreateFileFromCsv();
