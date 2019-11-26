@@ -5,10 +5,12 @@ This script uses a _conversion script_ file to read rows from a csv and convert 
 
 Invoke the script as follows:-
 
-`php CreateFileFromCsv.php scriptname [--input=filename] [--output=filename] [--verbose] [--samples[=x]]`
+`php CreateFileFromCsv.php scriptname [--input=filename] [--output=filename] [--verbose] [--samples[=x]] [--append]`
 
 - *verbose* outputs every statement to screen as it is being generated (slow)
 - *samples* outputs to screen a sample using only the first [or first x] row(s)
+- *append* appends output to a pre-existing file. Without this option the file will be emptied and re-written
+
 
 Input and Output filenames can be specified in the script, and are overridden by the cli versions if provided
 
