@@ -55,12 +55,12 @@ class Script
         return strtolower($string);
     }
 
-    public function usfirst($string = null)
+    public function ucfirst($string = null)
     {
         return ucfirst(strtolower($string));
     }
 
-    public function titlecase($string = null)
+    public function ucwords($string = null)
     {
         return ucwords(strtolower($string));
     }
