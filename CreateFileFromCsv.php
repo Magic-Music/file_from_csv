@@ -130,7 +130,7 @@ class CreateFileFromCsv
      */
     private function output($string)
     {
-            $string .= ($this->noNewLine) ? "\n" : '';
+            $string .= ($this->noNewLine) ? '' : "\n";
 
             if ($this->verbose) {
                 echo $string;
