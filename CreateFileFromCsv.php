@@ -67,7 +67,7 @@ class CreateFileFromCsv
     {
         $it = new RecursiveDirectoryIterator(__DIR__);
         foreach(new RecursiveIteratorIterator($it) as $file) {
-            $fileparts = explode('\\',$file);
+            $fileparts = explode(DIRECTORY_SEPARATOR,$file);
             $name=array_pop($fileparts);
             if($name == $class . ".php") {
                 include $file;
@@ -130,7 +130,7 @@ class CreateFileFromCsv
      */
     private function output($string)
     {
-            $string .= ($this->noNewLine) ? "\n" : '';
+            $string .= ($this->noNewLine) ? '' : "\n";
 
             if ($this->verbose) {
                 echo $string;
