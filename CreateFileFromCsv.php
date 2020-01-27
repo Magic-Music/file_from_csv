@@ -65,12 +65,13 @@ class CreateFileFromCsv
 
     public function autoload($class)
     {
+        $classfile = $class . ".php";
         $it = new RecursiveDirectoryIterator(__DIR__);
         foreach(new RecursiveIteratorIterator($it) as $file) {
             $fileparts = explode(DIRECTORY_SEPARATOR,$file);
             $name=array_pop($fileparts);
-            if($name == $class . ".php") {
-                include $file;
+            if(strcasecmp($name, $classfile) ==0) {
+                include str_replace($classfile, $name, $file);
                 return;
             }
         }
@@ -181,8 +182,8 @@ class CreateFileFromCsv
                 $cellValue=trim($row[$header]) ?? null;
             }
 
-            //This character sometimes appears in files extracted from excel...
-            $cellValue=str_replace('�', '', $cellValue);
+            //Non-breaking spaces
+            $cellValue=str_replace(['�',"\xa0"], '', $cellValue);
 
             //Update the statement (passed in by reference)
             $statement=str_replace($placeHolder, trim($cellValue), $statement);
