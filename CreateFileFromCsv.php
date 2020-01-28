@@ -13,13 +13,14 @@
  * CLI input and output options can be used to override script filenames.
  *
  * Run a conversion from the cli:-
- * php CreateFileFromCsv.php [scriptname] [--append] [--verbose] [--sample[=x]] [--input=filename] [--output=filename]
+ * php CreateFileFromCsv.php [scriptname] [--append] [--verbose] [--sample[=x]] [--input=filename] [--output=filename] [--nonewline] [--newline]
  *
  * --append: Don't delete any existing file - append data
  * --verbose: output complete file content to screen (slow)
  * --sample[=x]: Send sample output to screen based on 1 [or x] rows from the csv
  * --input=filename: Override the input filename in the script
  * --output=filename: Override the output filename in the script
+ * --newline/--nonewline: Override newline setting in script
  *
  * See samples in scripts/example folder for details of creating a conversion script
  *
@@ -40,7 +41,7 @@ class CreateFileFromCsv
 
     private $marker;
 
-    private $newline = false;
+    private $newline;
 
     private $input;
 
@@ -84,7 +85,10 @@ class CreateFileFromCsv
     private function run($ffc)
     {
         $count=0;
-        $this->newline = $ffc->newline() ? "\n" : '';
+
+        if(!isset($this->newline)) {
+            $this->newline = $ffc->newline() ? "\n" : '';
+        }
 
         foreach ($ffc->files() as $files) {
             $this->openFiles($files);
@@ -217,7 +221,7 @@ class CreateFileFromCsv
 
             $a = explode('=', $arg);
 
-            switch($a[0]) {
+            switch(strtolower($a[0])) {
                 case '--verbose':
                     $this->verbose = true;
                     break;
@@ -249,8 +253,16 @@ class CreateFileFromCsv
                     if($a[1]) {
                         $this->output = $a[1];
                     } else {
-                        die("No file specified with -output");
+                        die("No file specified with --output");
                     }
+                    break;
+
+                case '--nonewline':
+                    $this->newline = '';
+                    break;
+
+                case '--newline':
+                    $this->newline = "\n";
                     break;
             }
         }

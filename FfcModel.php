@@ -1,9 +1,9 @@
 <?php
 /**
- * The FfcModel is used by conversion scripts to supply 
- * parameters for the conversion. Scripts will instantiate 
- * an FfcModel, use the functions here to build the 
- * conversion, and return the model. 
+ * The FfcModel (File From Csv Model) is used by conversion
+ * scripts to supply parameters for the conversion. Scripts 
+ * instantiate an FfcModel, use the functions here to build  
+ * the conversion, and return the model.
  */
 
 class FfcModel
