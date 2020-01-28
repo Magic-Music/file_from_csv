@@ -14,9 +14,13 @@ class FfcModel
 
     private $suffix = '';
 
+    private $glue = '';
+
     private $statements=[];
 
     private $headerFunction;
+
+    private $newline = true;
 
     public function addFilenames($input, $output = null)
     {
@@ -78,6 +82,28 @@ class FfcModel
     public function headerFunction()
     {
         return $this->headerFunction;
+    }
+
+    public function addGlue($glue)
+    {
+        $this->glue = $glue;
+        return $this;
+    }
+
+    public function glue()
+    {
+        return $this->glue;
+    }
+
+    public function noNewLine()
+    {
+        $this->newline = false;
+        return $this;
+    }
+
+    public function newline()
+    {
+        return $this->newline;
     }
 
 }

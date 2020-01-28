@@ -38,6 +38,12 @@ _See example folder for sample scripts. You can create subfolders in the scripts
   replaced with the computed value or value from the matching
   column in the csv.
 
+- Use addPrefix($x) and addSuffix($x) to create strings at the start and of the file
+
+- Use addGlue($x) to create a string to use as a conjuction between each computed statement
+
+- Use noNewline() to suppress a newline being added to each computed statement
+
 - addFilenames can either be ('input.file', 'output.file') or
   [
       ['input1.file' => 'output1.file],

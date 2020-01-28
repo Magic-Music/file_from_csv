@@ -13,12 +13,11 @@
  * CLI input and output options can be used to override script filenames.
  *
  * Run a conversion from the cli:-
- * php CreateFileFromCsv.php [scriptname] [--append] [--verbose] [--sample[=x]] [--nonewline] [--input=filename] [--output=filename]
+ * php CreateFileFromCsv.php [scriptname] [--append] [--verbose] [--sample[=x]] [--input=filename] [--output=filename]
  *
  * --append: Don't delete any existing file - append data
  * --verbose: output complete file content to screen (slow)
  * --sample[=x]: Send sample output to screen based on 1 [or x] rows from the csv
- * --nonewline: don't output a newline into the output file at the end of prefix/statement/suffix
  * --input=filename: Override the input filename in the script
  * --output=filename: Override the output filename in the script
  *
@@ -41,7 +40,7 @@ class CreateFileFromCsv
 
     private $marker;
 
-    private $noNewLine = false;
+    private $newline = false;
 
     private $input;
 
@@ -85,6 +84,7 @@ class CreateFileFromCsv
     private function run($ffc)
     {
         $count=0;
+        $this->newline = $ffc->newline() ? "\n" : '';
 
         foreach ($ffc->files() as $files) {
             $this->openFiles($files);
@@ -103,9 +103,10 @@ class CreateFileFromCsv
                         $update = $this->replace($statement, array_combine($heads, $row));
                     } while ($update !== false);
 
-                    $this->output($statement);
-                    
-                    if($this->sample && $this->sample == ++$count) {
+                    $this->output($statement, $count ? $ffc->glue() : false);
+                    $count++;
+
+                    if($this->sample && $this->sample == $count) {
                         //Stop after [sample] rows for a sample output
                         break 2;
                     }
@@ -129,17 +130,17 @@ class CreateFileFromCsv
      * Output string to file and/or screen depending on options
      * @param type $string
      */
-    private function output($string)
+    private function output($string, $glue = false)
     {
-            $string .= ($this->noNewLine) ? '' : "\n";
+        $string = $glue . $string . $this->newline;
 
-            if ($this->verbose) {
-                echo $string;
-            }
+        if ($this->verbose) {
+            echo $string;
+        }
 
-            if(!$this->sample) {
-                fputs($this->outHandle, $string);
-            }        
+        if(!$this->sample) {
+            fputs($this->outHandle, $string);
+        }        
     }
 
     /**
@@ -250,10 +251,6 @@ class CreateFileFromCsv
                     } else {
                         die("No file specified with -output");
                     }
-                    break;
-
-                case '--nonewline':
-                    $this->noNewLine = true;
                     break;
             }
         }
