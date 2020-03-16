@@ -209,6 +209,12 @@ class CreateFileFromCsv
         }
 
         $scriptName = $args[1];
+
+        if($scriptName == 'list') {
+            $this->listScripts();
+            die("\n\n");
+        }
+
         if (class_exists($scriptName, true)) {
             $this->script = new $scriptName();
         } else {
@@ -317,6 +323,21 @@ class CreateFileFromCsv
             if($method->name != 'getModel') {
                 $this->computed[]=$method->name;
             }
+        }
+    }
+
+    private function listScripts()
+    {
+        echo "\n\nScripts available: \n\n";
+
+        $it = new RecursiveDirectoryIterator(__DIR__ . "/scripts");
+        foreach(new RecursiveIteratorIterator($it) as $file) {
+            $fileparts = explode(DIRECTORY_SEPARATOR,$file);
+            $name =  explode('.', array_pop($fileparts));
+            if($name[0] == '.' || $name[0] == '..' || ($name[1] ?? null) != 'php' || in_array('example', $fileparts)) {
+                continue;
+            }
+            echo $name[0] . "\n";
         }
     }
 }
