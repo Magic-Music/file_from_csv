@@ -101,10 +101,11 @@ class CreateFileFromCsv
             $this->output($ffc->prefix());
 
             while ($row = fgetcsv($this->inHandle)) {
+                $rowArray = array_combine($heads, $row);
                 foreach ($ffc->statements() as $statement) {
                     //Call replace until all the placeholders have been replaced
                     do {
-                        $update = $this->replace($statement, array_combine($heads, $row));
+                        $update = $this->replace($statement, $rowArray);
                     } while ($update !== false);
 
                     $this->output($statement, $count ? $ffc->glue() : false);
@@ -186,7 +187,7 @@ class CreateFileFromCsv
                 //Csv Value
                 $cellValue=trim($row[$header]) ?? null;
             }
-
+            
             //Non-breaking spaces
             $cellValue=str_replace(['�',"\xa0"], '', $cellValue);
 
